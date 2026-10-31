@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Form M - Report Missing Child</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans+Devanagari:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#445294}a:hover{color:#3D3D3D}
+:root{--bg:#FFFFFF;--surface:#FFFFFF;--text:#3D3D3D;--heading:#445294;--muted:#6B6B73;--border:#E4E4E9;--input-border:#B8B8C2;--accent:#F39C12;--accent-hover:#D9820A;--notice:#FEF6E7;--notice-text:#3D3D3D}
+.theme-light{--bg:#FFFFFF;--surface:#FFFFFF;--text:#3D3D3D;--heading:#445294;--muted:#6B6B73;--border:#E4E4E9;--input-border:#B8B8C2;--accent:#F39C12;--accent-hover:#D9820A;--notice:#FEF6E7;--notice-text:#3D3D3D}
+.theme-dark{--bg:#17171C;--surface:#1F1F26;--text:#EDEDF0;--heading:#9AA8E6;--muted:#A9A9B3;--border:#3A3A44;--input-border:#5C5C68;--accent:#F39C12;--accent-hover:#FFB84D;--notice:#33291A;--notice-text:#EDEDF0}
+.theme-light a, .theme-dark a{color:var(--heading)}
+:root{--done:#2E7D32}
+.theme-dark{--done:#7BD389}
+.dt::-webkit-calendar-picker-indicator{cursor:pointer; opacity:1; width:20px; height:20px}
+.theme-dark .dt::-webkit-calendar-picker-indicator{filter: invert(1)}
+.err{display:none; margin-top:-2px; font-size:13px; color:#B3261E}
+.theme-dark .err{color:#FF8A80}
+.fg:has(input:user-invalid) .err{display:block}
+input:user-invalid{border-color:#B3261E !important}
+.theme-dark input:user-invalid{border-color:#FF8A80 !important}
+.btn{transition: background 0.15s, color 0.15s, border-color 0.15s}
+.btn-save:hover{background: var(--heading) !important; color: var(--surface) !important}
+.btn-next:hover{background: var(--accent-hover) !important}
+.btn:focus-visible{outline: 3px solid #22409A; outline-offset: 2px}
+.tab{transition: background 0.15s, color 0.15s}
+.tab:hover:not([aria-disabled="true"]):not([aria-current="step"]){background: var(--notice) !important; color: var(--heading) !important}
+.tab:focus-visible{outline: 3px solid #22409A; outline-offset: -3px}
+.locked-view .footer-bar{display: none !important}
+.theme-dark .body-fig{filter: invert(1)}
+.theme-dark .emblem{filter: invert(1)}
+.demo-wrap{display:flex; flex-direction:column; align-items:center; gap:14px; padding:20px 0}
+.demo-fig{position:relative; display:inline-block}
+.demo-fig img{display:block; height:240px; width:auto; user-select:none}
+.demo-cur{position:absolute; left:50%; top:38%; width:18px; height:18px; box-sizing:border-box; border-radius:50%; border:2px solid var(--heading); background:rgba(68,82,148,0.25); transform:translate(-50%,-50%); opacity:0; animation:demoCur 4s ease-in-out infinite}
+.demo-mark{position:absolute; left:50%; top:38%; width:26px; height:26px; margin:-13px 0 0 -13px; box-sizing:border-box; border-radius:50%; border:2px solid #3D3D3D; background:#F39C12; color:#3D3D3D; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; opacity:0; animation:demoMark 4s ease-out infinite}
+@keyframes demoCur{0%{left:15%; top:88%; opacity:0; transform:translate(-50%,-50%) scale(1)} 8%{opacity:1} 40%{left:50%; top:38%; opacity:1; transform:translate(-50%,-50%) scale(1)} 46%{opacity:1; transform:translate(-50%,-50%) scale(0.7)} 50%{opacity:0; transform:translate(-50%,-50%) scale(1)} 100%{opacity:0; left:50%; top:38%}}
+@keyframes demoMark{0%,46%{opacity:0; transform:scale(0.4)} 52%{opacity:1; transform:scale(1.15)} 58%{opacity:1; transform:scale(1)} 88%{opacity:1; transform:scale(1)} 96%,100%{opacity:0; transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){.demo-cur{display:none} .demo-mark{animation:none; opacity:1}}
+.fl span{padding:0 12px; border-right:1px solid rgba(255,255,255,0.5)}
+.fl span:first-child{padding-left:0}
+.fl span:last-child{border-right:0}
+.print-only{display: none}
+.logo-dark{display: none}
+.theme-dark .logo-dark{display: block}
+.theme-dark .logo-light{display: none}
+@media print{.no-print{display: none !important} .print-only{display: block !important} body{background: #FFFFFF !important} *{box-shadow: none !important}}
+</style>
+</helmet>
+
+<div style="position: relative; width: 1280px; min-height: 880px; box-sizing: border-box">
+<div class="{{ themeClass }}" style="width: 100%; min-height: 880px; box-sizing: border-box; background: var(--bg); color: var(--text); font-family: 'Segoe UI', 'Noto Sans Devanagari', system-ui, sans-serif; font-size: 16px">
+<div style="zoom: {{ zoomLevel }}; min-height: 880px; box-sizing: border-box; display: flex; flex-direction: column; width: 1280px; height: auto; min-height: 999px; max-width: none; max-height: none; flex-grow: 0; flex-shrink: 0; flex-basis: auto; position: relative">
+
+<!-- Header (slim: logos, helpline, language, accessibility) -->
+<header class="no-print" style="position: absolute; top: 0px; z-index: 50; background: var(--bg); height: 106px; box-sizing: border-box; padding: 0 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); left: 0px; width: 1280px; max-width: none; max-height: none; min-width: 0; min-height: 0">
+  <button type="button" onClick="{{ goHome }}" aria-label="Go to the first section" style="background: none; border: 0; padding: 0; cursor: pointer; display: flex; align-items: center; gap: 20px">
+    <img class="emblem" src="./assets/88f9dca9303cdc6552797d0643cc23ec.svg" alt="National Emblem of India" style="height: 49px; width: 31px">
+    <img class="logo-light" src="./assets/6ab2c2d3a85a6d85df3d97005d957ff2.png" alt="Mission Vatsalya" style="height: 48px; width: 239px">
+    <img class="logo-dark" src="./assets/ff6075fea4b1d7899ab1b924ade589c6.png" alt="Mission Vatsalya" style="height: 48px; width: auto">
+  </button>
+  <div style="display: flex; align-items: center; gap: 28px">
+    <div style="font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-size: 15px; color: var(--text)"><span>{{ T.helpline }}</span> <font color="#445294" style="color: #AA0101"><strong>1098</strong></font></div>
+    <button type="button" class="btn" onClick="{{ toggleLang }}" aria-label="{{ T.langAria }}" style="display: flex; align-items: center; gap: 8px; background: none; border: 1px solid var(--input-border); border-radius: 8px; height: 44px; padding: 0 14px; font: inherit; font-size: 15px; color: var(--text); cursor: pointer; justify-content: center">
+      <img src="./assets/d01ac0cdea7f559e6a7615c0ae26cafa.svg" alt="" style="height: 22px; width: 22px; display: none">
+      <span style="text-align: center">English | हिन्दी</span>
+    </button>
+    <button type="button" aria-label="Accessibility options" aria-expanded="{{ panelOpen }}" onClick="{{ togglePanel }}" style="background: none; border: 0; padding: 0; height: 44px; width: 44px; cursor: pointer">
+      <img src="./assets/da50bd58a50f1e6fa1d77ebeef20ff01.svg" alt="" style="height: 44px; width: 44px">
+    </button>
+  </div>
+</header>
+
+<div class="print-only" style="font-size: 16px; font-weight: 700; color: #000000; position: absolute; left: 0px; top: 0px; width: 0px; height: 0px; box-sizing: border-box; max-width: none; max-height: none; min-width: 0; min-height: 0">{{ printRefLine }}</div>
+
+  <!-- Page title and section progress -->
+<main id="main" style="flex: 1; box-sizing: border-box; padding: 32px 120px 48px; display: flex; flex-direction: column; gap: 28px; min-height: 0; position: relative; left: 0px; top: 0px; margin-top: 106px; width: 1280px; height: auto; max-width: none; max-height: none; min-width: 0">
+
+
+  <!-- Section tabs: clickable only up to the next unfinished section. Fill line shows progress. -->
+  <h1 style="margin: 0; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 700; font-size: 26px; line-height: 1.2; color: var(--heading); padding-top: 20px">{{ T.title }}</h1><div class="no-print" style="{{ tabsStyle }}">
+    <ol aria-label="Form sections" style="position: relative; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-bottom: 1px solid var(--border)">
+      <sc-for list="{{ sections }}" as="item" hint-placeholder-count="5">
+        <li style="margin: 0; padding: 0">
+          <button type="button" class="tab" onClick="{{ item.pick }}" aria-disabled="{{ item.locked }}" aria-current="{{ item.ariaCurrent }}" style="{{ item.tabStyle }}">
+            <span aria-hidden="true" style="flex: 0 0 auto; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center">
+              <sc-if value="{{ item.is1 }}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="0 0 110 137.5" fill="currentColor" aria-hidden="true" style="width: 24px; height: 38px; stroke: #141413; stroke-width: 1px"><path d="M75.946,103H14.583a5.642,5.642,0,0,1-5.636-5.635V12.625A5.636,5.636,0,0,1,14.583,7H75.946a5.631,5.631,0,0,1,5.625,5.625v84.74A5.636,5.636,0,0,1,75.946,103ZM14.583,9a3.634,3.634,0,0,0-3.636,3.625v84.74A3.64,3.64,0,0,0,14.583,101H75.946a3.634,3.634,0,0,0,3.625-3.635V12.625A3.629,3.629,0,0,0,75.946,9Z"></path><path d="M94.378,100.038a2.118,2.118,0,0,1-1.686-.824L88.164,93.39a2.138,2.138,0,0,1-.458-1.313V25.764a4.18,4.18,0,0,1,4.174-4.175h5.011a4.172,4.172,0,0,1,4.16,4.175V92.077a2.226,2.226,0,0,1-.419,1.279l-4.57,5.86A2.115,2.115,0,0,1,94.378,100.038Zm-2.5-76.449a2.176,2.176,0,0,0-2.174,2.175V92.077l4.566,5.91a.135.135,0,0,0,.212,0l4.545-5.827a.243.243,0,0,0,.022-.084V25.764a2.17,2.17,0,0,0-2.16-2.175Z"></path><path d="M100.053,34H88.708a1,1,0,0,1,0-2h11.345a1,1,0,0,1,0,2Z"></path><path d="M100.053,89.437H88.708a1,1,0,0,1,0-2h11.345a1,1,0,0,1,0,2Z"></path><path d="M71.851,19.658H18.668a1,1,0,0,1,0-2H71.851a1,1,0,0,1,0,2Z"></path><path d="M71.851,31.772H18.668a1,1,0,0,1,0-2H71.851a1,1,0,0,1,0,2Z"></path><path d="M71.851,43.886H18.668a1,1,0,0,1,0-2H71.851a1,1,0,0,1,0,2Z"></path><path d="M71.851,56H18.668a1,1,0,0,1,0-2H71.851a1,1,0,0,1,0,2Z"></path><path d="M71.851,68.114H18.668a1,1,0,0,1,0-2H71.851a1,1,0,0,1,0,2Z"></path><path d="M71.851,80.228H18.668a1,1,0,1,1,0-2H71.851a1,1,0,0,1,0,2Z"></path><path d="M71.851,92.342H18.668a1,1,0,1,1,0-2H71.851a1,1,0,0,1,0,2Z"></path></svg></sc-if>
+              <sc-if value="{{ item.is2 }}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="-5.0 -10.0 110.0 135.0" fill="currentColor" aria-hidden="true" style="width: 25px; height: 31px; stroke: #141413; stroke-width: 1px"><path d="m14.844 67.188c-3.0156 0-5.4688 2.4531-5.4688 5.4688s2.4531 5.4688 5.4688 5.4688h2.3438v3.125c0 5.1719 4.2031 9.375 9.375 9.375h54.688c5.1719 0 9.375-4.2031 9.375-9.375v-62.5c0-5.1719-4.2031-9.375-9.375-9.375h-54.688c-5.1719 0-9.375 4.2031-9.375 9.375v3.125h-2.3438c-3.0156 0-5.4688 2.4531-5.4688 5.4688s2.4531 5.4688 5.4688 5.4688h2.3438v11.719h-2.3438c-3.0156 0-5.4688 2.4531-5.4688 5.4688s2.4531 5.4688 5.4688 5.4688h2.3438v11.719zm-2.3438 5.4688c0-1.2969 1.0469-2.3438 2.3438-2.3438h12.5c1.2969 0 2.3438 1.0469 2.3438 2.3438s-1.0469 2.3438-2.3438 2.3438h-12.5c-1.2969 0-2.3438-1.0469-2.3438-2.3438zm0-45.312c0-1.2969 1.0469-2.3438 2.3438-2.3438h12.5c1.2969 0 2.3438 1.0469 2.3438 2.3438s-1.0469 2.3438-2.3438 2.3438h-12.5c-1.2969 0-2.3438-1.0469-2.3438-2.3438zm0 22.656c0-1.2969 1.0469-2.3438 2.3438-2.3438h12.5c1.2969 0 2.3438 1.0469 2.3438 2.3438s-1.0469 2.3438-2.3438 2.3438h-12.5c-1.2969 0-2.3438-1.0469-2.3438-2.3438zm7.8125 5.4688h7.0312c3.0156 0 5.4688-2.4531 5.4688-5.4688s-2.4531-5.4688-5.4688-5.4688h-7.0312v-11.719h7.0312c3.0156 0 5.4688-2.4531 5.4688-5.4688s-2.4531-5.4688-5.4688-5.4688h-7.0312v-3.125c0-3.4531 2.7969-6.25 6.25-6.25h54.688c3.4531 0 6.25 2.7969 6.25 6.25v62.5c0 3.4531-2.7969 6.25-6.25 6.25h-54.688c-3.4531 0-6.25-2.7969-6.25-6.25v-3.125h7.0312c3.0156 0 5.4688-2.4531 5.4688-5.4688s-2.4531-5.4688-5.4688-5.4688h-7.0312zm24.844 14.844h30c0.85938 0 1.5625-0.70312 1.5625-1.5625v-6.75c0-7.0781-4.4688-13.109-10.719-15.484 2.1875-1.7344 3.5938-4.4062 3.5938-7.3906 0-5.2031-4.2344-9.4375-9.4375-9.4375s-9.4375 4.2344-9.4375 9.4375c0 3 1.4062 5.6719 3.5938 7.3906-6.25 2.375-10.719 8.4062-10.719 15.484v6.75c0 0.85938 0.70312 1.5625 1.5625 1.5625zm8.6875-31.188c0-3.4844 2.8281-6.3125 6.3125-6.3125s6.3125 2.8281 6.3125 6.3125-2.8281 6.3125-6.3125 6.3125-6.3125-2.8281-6.3125-6.3125zm-7.125 22.875c0-7.4062 6.0312-13.438 13.438-13.438s13.438 6.0312 13.438 13.438v5.1875h-26.875z"></path></svg></sc-if>
+              <sc-if value="{{ item.is3 }}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="0 0 24 30" fill="currentColor" aria-hidden="true" style="width: 24px; height: 31px"><path d="M17.81 4.47c-.08 0-.16-.02-.23-.06C15.66 3.42 14 3 12.01 3c-1.98 0-3.86.47-5.57 1.41-.24.13-.54.04-.68-.2-.13-.24-.04-.55.2-.68C7.82 2.52 9.86 2 12.01 2c2.13 0 3.99.47 6.03 1.52.25.13.34.43.21.67-.09.18-.26.28-.44.28zM3.5 9.72c-.1 0-.2-.03-.29-.09-.23-.16-.28-.47-.12-.7.99-1.4 2.25-2.5 3.75-3.27C9.98 4.04 14 4.03 17.15 5.65c1.5.77 2.76 1.86 3.75 3.25.16.22.11.54-.12.7-.23.16-.54.11-.7-.12-.9-1.26-2.04-2.25-3.39-2.94-2.87-1.47-6.54-1.47-9.4.01-1.36.7-2.5 1.7-3.4 2.96-.08.14-.23.21-.39.21zm6.25 12.07c-.13 0-.26-.05-.35-.15-.87-.87-1.34-1.43-2.01-2.64-.69-1.23-1.05-2.73-1.05-4.34 0-2.97 2.54-5.39 5.66-5.39s5.66 2.42 5.66 5.39c0 .28-.22.5-.5.5s-.5-.22-.5-.5c0-2.42-2.09-4.39-4.66-4.39s-4.66 1.97-4.66 4.39c0 1.44.32 2.77.93 3.85.64 1.15 1.08 1.64 1.85 2.42.19.2.19.51 0 .71-.11.1-.24.15-.37.15zm7.17-1.85c-1.19 0-2.24-.3-3.1-.89-1.49-1.01-2.38-2.65-2.38-4.39 0-.28.22-.5.5-.5s.5.22.5.5c0 1.41.72 2.74 1.94 3.56.71.48 1.54.71 2.54.71.24 0 .64-.03 1.04-.1.27-.05.53.13.58.41.05.27-.13.53-.41.58-.57.11-1.07.12-1.21.12zM14.91 22c-.04 0-.09-.01-.13-.02-1.59-.44-2.63-1.03-3.72-2.1-1.4-1.39-2.17-3.24-2.17-5.22 0-1.62 1.38-2.94 3.08-2.94s3.08 1.32 3.08 2.94c0 1.07.93 1.94 2.08 1.94s2.08-.87 2.08-1.94c0-3.77-3.25-6.83-7.25-6.83-2.84 0-5.44 1.58-6.61 4.03-.39.81-.59 1.76-.59 2.8 0 .78.07 2.01.67 3.61.1.26-.03.55-.29.64-.26.1-.55-.04-.64-.29-.49-1.31-.73-2.61-.73-3.96 0-1.2.23-2.29.68-3.24 1.33-2.79 4.28-4.6 7.51-4.6 4.55 0 8.25 3.51 8.25 7.83 0 1.62-1.38 2.94-3.08 2.94s-3.08-1.32-3.08-2.94c0-1.07-.93-1.94-2.08-1.94s-2.08.87-2.08 1.94c0 1.71.66 3.31 1.87 4.51.95.94 1.86 1.46 3.27 1.85.27.07.42.35.35.61-.05.23-.26.38-.47.38z"></path></svg></sc-if>
+              <sc-if value="{{ item.is4 }}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="-5.0 -10.0 110.0 135.0" fill="currentColor" aria-hidden="true"><path d="m19.254 19.258c5.3477-5.3516 12.363-8.0273 19.375-8.0273 7.0039 0 14.016 2.6758 19.367 8.0273 5.3516 5.3477 8.0273 12.359 8.0273 19.371 0 7.0117-2.6758 14.023-8.0273 19.371-5.3477 5.3477-12.363 8.0273-19.371 8.0273-7.0039 0-14.016-2.6758-19.367-8.0273-5.3555-5.3594-8.0312-12.367-8.0312-19.371 0-7.0078 2.6758-14.016 8.0273-19.371zm14.27 6.0547c-1.0312 0.39062-2.1875-0.125-2.5781-1.1562-0.39062-1.0312 0.125-2.1875 1.1562-2.5781 0.69922-0.24609 1.2773-0.42578 1.9883-0.625 1.0664-0.27344 2.1523 0.37109 2.4219 1.4375 0.27344 1.0664-0.37109 2.1523-1.4375 2.4219-0.55078 0.15625-1.0117 0.3125-1.5508 0.5zm8.7656-0.46875c-1.0664-0.28125-1.7031-1.3711-1.4219-2.4375s1.3711-1.7031 2.4375-1.4219c0.43359 0.11328 0.88281 0.25391 1.3359 0.41016l0.097656 0.039063c0.42578 0.14844 0.82422 0.30469 1.1914 0.46484 1.0078 0.4375 1.4688 1.6172 1.0312 2.625-0.4375 1.0078-1.6172 1.4688-2.625 1.0312l-1.0117-0.39453c-0.32812-0.11328-0.67578-0.22266-1.0391-0.31641zm8.1523 5.7852c-0.61719-0.91016-0.37891-2.1484 0.53125-2.7656 0.91016-0.61719 2.1484-0.37891 2.7656 0.53125 1.6836 2.4805 2.6914 5.2773 3.0195 8.1328 0.33594 2.9023-0.027343 5.8672-1.082 8.625-0.39062 1.0312-1.5469 1.5469-2.5781 1.1562s-1.5469-1.5469-1.1562-2.5781c0.82422-2.1602 1.1094-4.4805 0.84766-6.75-0.25781-2.2383-1.043-4.4258-2.3477-6.3516zm-38.215-18.402c7.293-7.293 16.852-10.941 26.402-10.941 9.5547 0.007813 19.113 3.6523 26.398 10.938 6.3086 6.3086 9.8867 14.312 10.734 22.551 0.80859 7.8555-0.87109 15.926-5.0391 22.93l25.305 25.305c1.793 1.793 2.6875 4.1523 2.6875 6.5078 0 2.293-0.85547 4.5938-2.5625 6.3711l-0.18359 0.19141c-1.7852 1.7578-4.125 2.6367-6.457 2.6367-2.3555 0-4.7188-0.89844-6.5078-2.6875l-25.305-25.305c-7 4.168-15.07 5.8516-22.926 5.0391-8.2344-0.84766-16.246-4.4297-22.547-10.73-7.293-7.293-10.938-16.848-10.938-26.398 0-9.5547 3.6445-19.109 10.938-26.398zm2.832 2.8242c-6.5117 6.5156-9.7695 15.047-9.7695 23.578s3.2539 17.062 9.7617 23.57c5.6367 5.6367 12.785 8.8359 20.133 9.5938 7.4414 0.76562 15.09-0.96094 21.582-5.1797 0.78516-0.61719 1.9258-0.56641 2.6484 0.16016l26.422 26.422c1.0078 1.0078 2.3438 1.5156 3.6797 1.5156 1.3242 0 2.6445-0.49609 3.6523-1.4844l0.03125-0.03125c1.0117-1.0078 1.5156-2.3438 1.5156-3.6797s-0.50391-2.6719-1.5156-3.6797l-26.422-26.422c-0.64844-0.66016-0.77734-1.7031-0.25-2.5078 4.2852-6.5234 6.043-14.23 5.2695-21.723-0.75781-7.3438-3.9531-14.492-9.5898-20.125-6.5156-6.5156-15.047-9.7734-23.574-9.7734-8.5312 0.007813-17.062 3.2617-23.57 9.7695zm23.57 0.17969c-5.9883 0-11.98 2.2852-16.547 6.8516-4.5664 4.5625-6.8516 10.555-6.8516 16.547 0 5.9922 2.2852 11.98 6.8477 16.547 4.5664 4.5625 10.559 6.8477 16.551 6.8477 5.9883 0 11.98-2.2852 16.547-6.8516 4.5664-4.5664 6.8516-10.559 6.8516-16.547s-2.2852-11.98-6.8516-16.547c-4.5625-4.5703-10.551-6.8516-16.547-6.8516z"></path></svg></sc-if>
+              <sc-if value="{{ item.is5 }}" hint-placeholder-val="{{ false }}"><svg width="26" height="26" viewBox="-5.0 -10.0 110.0 135.0" fill="currentColor" aria-hidden="true"><path d="m96.777 13.945c0-2.9727-1.2773-5.7773-3.5273-7.7227-4.0273-3.4727-10.25-3.1406-14.195 0.80469l-61 61c-0.30469 0.30469-0.52734 0.66797-0.66797 1.082l-4.4727 13.418c-0.47266 1.4453-0.10937 3.0273 0.97266 4.1094 0.77734 0.77734 1.7773 1.168 2.832 1.168 0.41797 0 0.85938-0.054688 1.2773-0.22266l13.418-4.4727c0.41797-0.14062 0.77734-0.35938 1.082-0.66797l52.309-52.301 1.5273 1.5273c0.83203 0.85938 0.85938 2.2227 0 3.082l-19.277 19.277c-1.082 1.082-1.082 2.832 0 3.918 0.55469 0.55469 1.25 0.80469 1.9727 0.80469s1.418-0.27734 1.9727-0.80469l19.277-19.277c3-3 3-7.918 0-10.945l-1.5273-1.5273 5.0273-5.0273c1.918-1.918 3-4.5 3-7.2227zm-67.75 64.109-9.8594 3.2773 3.2773-9.8594 41.359-41.359 6.582 6.582zm60.832-60.832-15.555 15.555-6.582-6.582 15.25-15.25c1.8594-1.8594 4.832-2.082 6.6094-0.52734 1.0273 0.89062 1.6094 2.168 1.6094 3.5273 0 1.25-0.47266 2.418-1.3594 3.2773zm-78.387 71.805c1.082 1.082 1.082 2.832 0 3.918l-3.5 3.5c-0.55469 0.55469-1.25 0.80469-1.9727 0.80469s-1.418-0.27734-1.9727-0.80469c-1.082-1.082-1.082-2.832 0-3.918l3.5-3.5c1.082-1.082 2.832-1.082 3.918 0z"></path></svg></sc-if>
+            </span>
+            <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+              <span style="font-size: 13px; font-weight: 400; color: var(--muted)">
+                <sc-if value="{{ item.isDone }}" hint-placeholder-val="{{ false }}">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px"><path d="M3 8.5l3 3 7-7" style="stroke: var(--done)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </sc-if>
+                Section {{ item.n }}
+              </span>
+              <span>{{ item.title }}</span>
+            </span>
+          </button>
+        </li>
+      </sc-for>
+      <div aria-hidden="true" style="position: absolute; left: 0; bottom: 0; height: 4px; width: {{ progressWidth }}; background: var(--done); transition: width 0.3s"></div>
+    </ol>
+    
+  </div>
+
+  <!-- Viewing a submitted form -->
+  <div class="no-print" style="{{ viewBarStyle }}">
+    <span style="font-size: 15px; font-weight: 600; color: var(--notice-text)">{{ T.viewNote }}</span>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap">
+      <button type="button" class="btn btn-save" onClick="{{ backToConfirm }}" style="height: 44px; padding: 0 18px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.backConfirm }}</button>
+      <button type="button" class="btn btn-next" onClick="{{ printForm }}" style="height: 44px; padding: 0 18px; background: var(--accent); color: #FFFFFF; border: 0; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.printSave }}</button>
+    </div>
+  </div>
+
+  <!-- Section 1 card -->
+  <div style="{{ sec1Style }}">
+  <form style="border: 1px solid var(--border); border-radius: 12px; padding: 32px 40px; display: flex; flex-direction: column; gap: 24px; background: var(--surface)" onsubmit="return false">
+    <div>
+      <h2 style="margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 22px; color: var(--text)">{{ T.s1Head }}</h2>
+      <p style="margin: 0; font-size: 15px; color: var(--muted)">{{ T.s1Desc }}</p>
+    </div>
+
+    <div style="display: flex; align-items: flex-start; gap: 12px">
+      <input id="fir-pending" type="checkbox" onClick="{{ toggleFir }}" style="width: 20px; height: 20px; margin: 2px 0 0; accent-color: #F39C12">
+      <label for="fir-pending" style="font-size: 16px">{{ T.s1Pending }}</label>
+    </div>
+
+    <div role="note" style="border-left: 4px solid var(--accent); background: var(--notice); border-radius: 8px; padding: 14px 18px; font-size: 15px; color: var(--notice-text)">
+      {{ T.s1Notice }}
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="fir-no" style="font-weight: 600">{{ T.firNo }}</label>
+        <input id="fir-no" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="fir-date" style="font-weight: 600">{{ T.firDate }}</label>
+        <input id="fir-date" type="date" class="dt" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="gde-no" style="font-weight: 600">{{ T.gdeNo }}</label>
+        <input id="gde-no" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        <span style="font-size: 13px; color: var(--muted)">{{ T.gdeHelp }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="gde-date" style="font-weight: 600">{{ T.gdeDate }}</label>
+        <input id="gde-date" type="date" class="dt" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+      </div>
+    </div>
+
+    <div class="no-print footer-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid var(--border); padding-top: 24px">
+      <button type="button" class="btn btn-save" onClick="{{ back }}" style="{{ backStyle }} height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.back }}</button>
+      <div style="display: flex; align-items: center; gap: 16px">
+      <button type="button" class="btn btn-save" style="height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.save }}</button>
+      <button type="button" class="btn btn-next" onClick="{{ next }}" style="height: 48px; padding: 0 32px; background: var(--accent); color: #FFFFFF; border: 0; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.next }}</button>
+    </div>
+    </div>
+  </form>
+  </div>
+
+  <!-- Section 2 card: Child & Family -->
+  <div style="{{ sec2Style }}">
+  <form style="border: 1px solid var(--border); border-radius: 12px; padding: 32px 40px; display: flex; flex-direction: column; gap: 32px; background: var(--surface)" onsubmit="return false">
+    <div>
+      <h2 style="margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 22px; color: var(--text)">{{ T.s2Head }}</h2>
+      <p style="margin: 0; font-size: 15px; color: var(--muted)">{{ T.s2Desc }}</p>
+    </div>
+
+    <!-- 2.1 Child's personal details -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0; padding-top: 0px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s21Head }}</legend>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px">
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px">
+          <span style="font-weight: 600">{{ T.legalName }}</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="c-first" style="font-size: 14px; color: var(--muted)">{{ T.first }}</label>
+              <input id="c-first" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="c-middle" style="font-size: 14px; color: var(--muted)">{{ T.middle }}</label>
+              <input id="c-middle" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="c-last" style="font-size: 14px; color: var(--muted)">{{ T.last }}</label>
+              <input id="c-last" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+          </div>
+        </div>
+
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px">
+          <span style="font-weight: 600">{{ T.nick }}</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="c-nick1" style="font-size: 14px; color: var(--muted)">{{ T.nick1 }}</label>
+              <input id="c-nick1" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="c-nick2" style="font-size: 14px; color: var(--muted)">{{ T.nick2 }}</label>
+              <input id="c-nick2" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="c-nick3" style="font-size: 14px; color: var(--muted)">{{ T.nick3 }}</label>
+              <input id="c-nick3" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+          </div>
+        </div>
+
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.gender }}</legend>
+          <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center; min-height: 48px">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="gender" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.male }}</label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="gender" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.female }}</label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="gender" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.other }}</label>
+          </div>
+        </fieldset>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="c-dob" style="font-weight: 600">{{ T.dob }}</label>
+          <input id="c-dob" type="date" class="dt" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+
+        <div class="fg" style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px; width: 478px; margin-right: 4px; margin-left: 4px; margin-top: 0px; margin-bottom: 0px">
+          <span style="font-weight: 600">{{ T.aadhaar }}</span>
+          <div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 1" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 2" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 3" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 4" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 5" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 6" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 7" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 8" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 9" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 10" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 11" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+            <input type="text" inputmode="numeric" maxlength="1" pattern="[0-9]" required="" aria-label="Aadhaar digit 12" style="width: 35px; height: 35px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0; text-align: center; font: inherit; font-size: 18px; background: var(--surface); color: var(--text)">
+          </div>
+          <span class="err">{{ T.errAadhaar }}</span>
+        </div>
+
+        <div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px 28px; align-items: start">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="c-religion" style="font-weight: 600">{{ T.religion }}</label>
+            <select id="c-religion" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+              <option value="" disabled="" selected="">{{ T.selectOne }}</option>
+              <sc-for list="{{ religionOpts }}" as="o"><option value="{{ o.t }}">{{ o.t }}</option></sc-for>
+            </select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="c-tongue" style="font-weight: 600">{{ T.motherTongue }}</label>
+            <select id="c-tongue" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+              <option value="" disabled="" selected="">{{ T.selectOne }}</option>
+              <sc-for list="{{ tongueOpts }}" as="o"><option value="{{ o.t }}">{{ o.t }}</option></sc-for>
+            </select>
+          </div>
+          <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+            <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.nationality }}</legend>
+            <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center; min-height: 48px">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="nationality" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.indian }}</label>
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="nationality" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.otherNat }}</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 2fr; gap: 20px 28px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="c-class" style="font-weight: 600">{{ T.className }}</label>
+            <select id="c-class" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+              <option value="" disabled="" selected="">{{ T.selectOne }}</option>
+              <sc-for list="{{ classOpts }}" as="o"><option value="{{ o.t }}">{{ o.t }}</option></sc-for>
+            </select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="c-school" style="font-weight: 600">{{ T.school }}</label>
+            <textarea id="c-school" rows="4" style="min-height: 120px; box-sizing: border-box; resize: vertical; border: 1px solid var(--input-border); border-radius: 8px; padding: 10px 14px; font: inherit; background: var(--surface); color: var(--text)"></textarea>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 2.2 Family & contact details -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s22Head }}</legend>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-mother" style="font-weight: 600">{{ T.mother }}</label>
+          <input id="f-mother" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-father" style="font-weight: 600">{{ T.father }}</label>
+          <input id="f-father" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+          <label for="f-sibling" style="font-weight: 600">{{ T.sibling }}</label>
+          <input id="f-sibling" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 12px">
+          <span style="font-weight: 600">{{ T.address }}</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="f-house" style="font-size: 14px; color: var(--muted)">{{ T.house }}</label>
+              <input id="f-house" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="f-street" style="font-size: 14px; color: var(--muted)">{{ T.street }}</label>
+              <input id="f-street" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="f-district" style="font-size: 14px; color: var(--muted)">{{ T.district }}</label>
+              <input id="f-district" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="f-city" style="font-size: 14px; color: var(--muted)">{{ T.city }}</label>
+              <input id="f-city" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="f-state" style="font-size: 14px; color: var(--muted)">{{ T.state }}</label>
+              <input id="f-state" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="f-pin" style="font-size: 14px; color: var(--muted)">{{ T.pin }}</label>
+              <input id="f-pin" type="text" inputmode="numeric" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+          </div>
+        </div>
+        <div class="fg" style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-phone" style="font-weight: 600">{{ T.phone }}</label>
+          <div style="display: flex; gap: 8px">
+            <span style="height: 48px; box-sizing: border-box; display: flex; align-items: center; padding: 0 12px; border: 1px solid var(--input-border); border-radius: 8px; color: var(--muted); background: var(--notice)">+91</span>
+            <input id="f-phone" type="tel" inputmode="numeric" pattern="[6-9][0-9]{9}" style="flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+          </div>
+          <span class="err">{{ T.errPhone }}</span>
+        </div>
+        <div class="fg" style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-email" style="font-weight: 600">{{ T.email }}</label>
+          <input id="f-email" type="email" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+          <span class="err">{{ T.errEmail }}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-post" style="font-weight: 600">{{ T.postOffice }}</label>
+          <input id="f-post" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="f-police" style="font-weight: 600">{{ T.policeStation }}</label>
+          <input id="f-police" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 2.3 Photographs -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s23Head }}</legend>
+      <p style="margin: 0; font-size: 14px; color: var(--muted)">{{ T.photoRule }}</p>
+
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label for="ph-passport" style="font-weight: 600">{{ T.passport }}</label>
+        <input id="ph-passport" type="file" accept="image/jpeg" style="font: inherit; font-size: 15px">
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <span style="font-weight: 600">{{ T.recent }}</span>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+          <div style="border: 1px dashed var(--input-border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+            <label for="ph-1" style="font-weight: 600; font-size: 15px">{{ T.photo1 }}</label>
+            <input id="ph-1" type="file" accept="image/jpeg" style="font: inherit; font-size: 14px">
+          </div>
+          <div style="border: 1px dashed var(--input-border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+            <label for="ph-2" style="font-weight: 600; font-size: 15px">{{ T.photo2 }}</label>
+            <input id="ph-2" type="file" accept="image/jpeg" style="font: inherit; font-size: 14px">
+          </div>
+          <div style="border: 1px dashed var(--input-border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+            <label for="ph-3" style="font-weight: 600; font-size: 15px">{{ T.photo3 }}</label>
+            <input id="ph-3" type="file" accept="image/jpeg" style="font: inherit; font-size: 14px">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="no-print footer-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid var(--border); padding-top: 24px">
+      <button type="button" class="btn btn-save" onClick="{{ back }}" style="{{ backStyle }} height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.back }}</button>
+      <div style="display: flex; align-items: center; gap: 16px">
+      <button type="button" class="btn btn-save" style="height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.save }}</button>
+      <button type="button" class="btn btn-next" onClick="{{ next }}" style="height: 48px; padding: 0 32px; background: var(--accent); color: #FFFFFF; border: 0; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.next }}</button>
+    </div>
+    </div>
+  </form>
+  </div>
+
+  <!-- Section 3 card: Identification details of the child -->
+  <div style="{{ sec3Style }}">
+  <form style="border: 1px solid var(--border); border-radius: 12px; padding: 32px 40px; display: flex; flex-direction: column; gap: 32px; background: var(--surface)" onsubmit="return false">
+    <div>
+      <h2 style="margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 22px; color: var(--text)">{{ T.s3Head }}</h2>
+      <p style="margin: 0; font-size: 15px; color: var(--muted)">{{ T.s3Desc }}</p>
+    </div>
+
+    <!-- 3.1 Physical features -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s31Head }}</legend>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px 28px; align-items: start">
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px">
+          <span style="font-weight: 600">{{ T.height }}</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 480px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="p-feet" style="font-size: 14px; color: var(--muted)">{{ T.feet }}</label>
+              <input id="p-feet" type="text" inputmode="numeric" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="p-inch" style="font-size: 14px; color: var(--muted)">{{ T.inches }}</label>
+              <input id="p-inch" type="text" inputmode="numeric" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="p-weight" style="font-weight: 600">{{ T.weight }}</label>
+          <input id="p-weight" type="text" inputmode="numeric" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; grid-column: span 2">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.bodyBuilt }}</legend>
+          <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center; min-height: 48px">
+            <sc-for list="{{ bodyBuiltOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="bodyBuilt" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+          </div>
+        </fieldset>
+      </div>
+    </fieldset>
+
+    <!-- 3.2 Distinctive marks -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s32Head }}</legend>
+      <p style="margin: 0; font-size: 14px; color: var(--muted)">{{ T.marksDesc }}</p>
+      <div style="display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 28px; align-items: start">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px">
+          <div role="group" aria-label="Body view" style="display: flex; gap: 0">
+            <button type="button" aria-pressed="{{ isFront }}" onClick="{{ setFront }}" style="{{ frontBtnStyle }}">{{ T.front }}</button>
+            <button type="button" aria-pressed="{{ isBack }}" onClick="{{ setBack }}" style="{{ backBtnStyle }}">{{ T.back }}</button>
+          </div>
+          <div onClick="{{ placeMark }}" style="position: relative; display: inline-block; cursor: crosshair">
+            <sc-if value="{{ isFront }}" hint-placeholder-val="{{ true }}"><img class="body-fig" src="./assets/d2427da2b839cec7175b9011db91b21f.svg" alt="Front view of body" style="display: block; height: 400px; width: auto; user-select: none"></sc-if>
+            <sc-if value="{{ isBack }}" hint-placeholder-val="{{ false }}"><img class="body-fig" src="./assets/b2a1611be5a1c72e548bf0f26ac7a8b9.svg" alt="Back view of body" style="display: block; height: 400px; width: auto; user-select: none"></sc-if>
+            <sc-for list="{{ viewMarks }}" as="m">
+              <button type="button" aria-label="Mark {{ m.num }}. Click to remove" onClick="{{ m.remove }}" style="{{ m.style }}">{{ m.num }}</button>
+            </sc-for>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: var(--muted); text-align: center">{{ T.markHint }}</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; min-width: 0">
+          <sc-if value="{{ hasRows }}" hint-placeholder-val="{{ false }}">
+          <div style="overflow-x: auto">
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px">
+              <thead>
+                <tr style="text-align: left; border-bottom: 1px solid var(--border)">
+                  <th style="padding: 10px 8px; width: 70px; font-weight: 600">{{ T.sno }}</th>
+                  <th style="padding: 10px 8px; font-weight: 600">{{ T.bodyPart }}</th>
+                  <th style="padding: 10px 8px; font-weight: 600">{{ T.markType }}</th>
+                  <th style="padding: 10px 8px; font-weight: 600">{{ T.markDesc }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ tableRows }}" as="r">
+                <tr style="border-bottom: 1px solid var(--border)">
+                  <td style="padding: 10px 8px; color: var(--muted)">{{ r.label }}</td>
+                  <td style="padding: 10px 8px"><select aria-label="Body part, row {{ r.label }}" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"><option value="" disabled="" selected="">{{ T.selectOne }}</option><sc-for list="{{ bodyPartOpts }}" as="bp"><option value="{{ bp.t }}">{{ bp.t }}</option></sc-for></select></td>
+                  <td style="padding: 10px 8px"><select aria-label="Type of mark, row {{ r.label }}" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"><option value="" disabled="" selected="">{{ T.selectOne }}</option><sc-for list="{{ markTypeOpts }}" as="mt"><option value="{{ mt.t }}">{{ mt.t }}</option></sc-for></select></td>
+                  <td style="padding: 10px 8px"><input type="text" aria-label="Description, row {{ r.label }}" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+                </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          </sc-if>
+          <sc-if value="{{ noRows }}" hint-placeholder-val="{{ true }}">
+          <div class="demo-wrap" role="img" aria-label="Animation: click on the body to place a numbered mark">
+            <p style="margin: 0; font-size: 15px; font-weight: 600; color: var(--muted)">{{ T.demoHead }}</p>
+            <div class="demo-fig">
+              <img class="body-fig" src="./assets/d2427da2b839cec7175b9011db91b21f.svg" alt="">
+              <span class="demo-cur"></span>
+              <span class="demo-mark">1</span>
+            </div>
+            <p style="margin: 0; font-size: 13px; color: var(--muted); text-align: center">{{ T.markEmpty }}</p>
+          </div>
+          </sc-if>
+          <div>
+            <button type="button" class="btn" onClick="{{ addRow }}" style="height: 44px; padding: 0 18px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">+ {{ T.addRow }}</button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 3.3 Appearance -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s33Head }}</legend>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start">
+      <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+        <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.skin }}</legend>
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+          <sc-for list="{{ skinOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="skin" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+        </div>
+      </fieldset>
+      <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+        <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.eyes }}</legend>
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+          <sc-for list="{{ eyeOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="eyes" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+        </div>
+      </fieldset>
+      <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+        <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.hair }}</legend>
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+          <sc-for list="{{ hairOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="hair" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+        </div>
+      </fieldset>
+          </div>
+    </fieldset>
+
+    <!-- 3.4 Basic biological details -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s34Head }}</legend>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px 28px">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="b-blood" style="font-weight: 600">{{ T.blood }}</label>
+          <select id="b-blood" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            <option value="" disabled="" selected="">{{ T.selectOne }}</option>
+            <sc-for list="{{ bloodOpts }}" as="o"><option value="{{ o.t }}">{{ o.t }}</option></sc-for>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 3.5 Biological / health details -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s35Head }}</legend>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px 28px; align-items: start">
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.phys }}</legend>
+          <sc-for list="{{ physOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+        </fieldset>
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.sens }}</legend>
+          <sc-for list="{{ sensOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+        </fieldset>
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.ment }}</legend>
+          <sc-for list="{{ mentOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+        </fieldset>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="b-other" style="font-weight: 600">{{ T.otherSpec }}</label>
+        <input id="b-other" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+      </div>
+    </fieldset>
+
+    <!-- 3.6 Behavioural traits & habits -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s36Head }}</legend>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px 28px; align-items: start">
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.habits }}</legend>
+          <sc-for list="{{ habitOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+        </fieldset>
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.comm }}</legend>
+          <sc-for list="{{ commOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px; min-height: 28px"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+        </fieldset>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="b-describe" style="font-weight: 600">{{ T.describe }}</label>
+        <textarea id="b-describe" rows="4" style="min-height: 120px; box-sizing: border-box; resize: vertical; border: 1px solid var(--input-border); border-radius: 8px; padding: 10px 14px; font: inherit; background: var(--surface); color: var(--text)"></textarea>
+      </div>
+    </fieldset>
+
+    <div class="no-print footer-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid var(--border); padding-top: 24px">
+      <button type="button" class="btn btn-save" onClick="{{ back }}" style="{{ backStyle }} height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.back }}</button>
+      <div style="display: flex; align-items: center; gap: 16px">
+      <button type="button" class="btn btn-save" style="height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.save }}</button>
+      <button type="button" class="btn btn-next" onClick="{{ next }}" style="height: 48px; padding: 0 32px; background: var(--accent); color: #FFFFFF; border: 0; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.next }}</button>
+    </div>
+    </div>
+  </form>
+  </div>
+
+  <!-- Section 4 card: Incident & investigation -->
+  <div style="{{ sec4Style }}">
+  <form style="border: 1px solid var(--border); border-radius: 12px; padding: 32px 40px; display: flex; flex-direction: column; gap: 32px; background: var(--surface)" onsubmit="return false">
+    <div>
+      <h2 style="margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 22px; color: var(--text)">{{ T.s4Head }}</h2>
+      <p style="margin: 0; font-size: 15px; color: var(--muted)">{{ T.s4Desc }}</p>
+    </div>
+
+    <!-- 4.1 Informant details -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s41Head }}</legend>
+      <p style="margin: 0; font-size: 14px; color: var(--muted)">{{ T.informantNote }}</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px">
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 8px">
+          <span style="font-weight: 600">{{ T.nameLabel }}</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-first" style="font-size: 14px; color: var(--muted)">{{ T.first }}</label>
+              <input id="i-first" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-middle" style="font-size: 14px; color: var(--muted)">{{ T.middle }}</label>
+              <input id="i-middle" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-last" style="font-size: 14px; color: var(--muted)">{{ T.last }}</label>
+              <input id="i-last" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+          </div>
+        </div>
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.gender }}</legend>
+          <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center; min-height: 48px">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="igender" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.male }}</label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="igender" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.female }}</label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="igender" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.other }}</label>
+          </div>
+        </fieldset>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="i-relation" style="font-weight: 600">{{ T.relation }}</label>
+          <input id="i-relation" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="i-dob" style="font-weight: 600">{{ T.dob }}</label>
+          <input id="i-dob" type="date" class="dt" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 12px">
+          <span style="font-weight: 600">{{ T.address }}</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px">
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-house" style="font-size: 14px; color: var(--muted)">{{ T.house }}</label>
+              <input id="i-house" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-street" style="font-size: 14px; color: var(--muted)">{{ T.street }}</label>
+              <input id="i-street" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-district" style="font-size: 14px; color: var(--muted)">{{ T.district }}</label>
+              <input id="i-district" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-city" style="font-size: 14px; color: var(--muted)">{{ T.city }}</label>
+              <input id="i-city" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-state" style="font-size: 14px; color: var(--muted)">{{ T.state }}</label>
+              <input id="i-state" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px">
+              <label for="i-pin" style="font-size: 14px; color: var(--muted)">{{ T.pin }}</label>
+              <input id="i-pin" type="text" inputmode="numeric" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+            </div>
+          </div>
+        </div>
+
+        <div class="fg" style="display: flex; flex-direction: column; gap: 6px">
+          <label for="i-phone" style="font-weight: 600">{{ T.phone }}</label>
+          <div style="display: flex; gap: 8px">
+            <span style="height: 48px; box-sizing: border-box; display: flex; align-items: center; padding: 0 12px; border: 1px solid var(--input-border); border-radius: 8px; color: var(--muted); background: var(--notice)">+91</span>
+            <input id="i-phone" type="tel" inputmode="numeric" pattern="[6-9][0-9]{9}" style="flex: 1; min-width: 0; height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+          </div>
+          <span class="err">{{ T.errPhone }}</span>
+        </div>
+        <div class="fg" style="display: flex; flex-direction: column; gap: 6px">
+          <label for="i-email" style="font-weight: 600">{{ T.email }}</label>
+          <input id="i-email" type="email" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+          <span class="err">{{ T.errEmail }}</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="i-post" style="font-weight: 600">{{ T.postOffice }}</label>
+          <input id="i-post" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="i-police" style="font-weight: 600">{{ T.policeStation }}</label>
+          <input id="i-police" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 4.2 Missing event details -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s42Head }}</legend>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px">
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+          <label for="m-last-seen" style="font-weight: 600">{{ T.lastSeen }}</label>
+          <input id="m-last-seen" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="m-date" style="font-weight: 600">{{ T.missingDate }}</label>
+          <input id="m-date" type="date" class="dt" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="m-time" style="font-weight: 600">{{ T.missingTime }}</label>
+          <input id="m-time" type="text" placeholder="HH:MM" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <fieldset style="grid-column: 1 / -1; border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+          <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.causeHead }}</legend>
+          <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center">
+            <sc-for list="{{ causeOpts }}" as="o"><label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="cause" style="width: 18px; height: 18px; accent-color: #F39C12">{{ o.t }}</label></sc-for>
+          </div>
+        </fieldset>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="m-clothes" style="font-weight: 600">{{ T.clothes }}</label>
+          <textarea id="m-clothes" rows="3" style="min-height: 96px; box-sizing: border-box; resize: vertical; border: 1px solid var(--input-border); border-radius: 8px; padding: 10px 14px; font: inherit; background: var(--surface); color: var(--text)"></textarea>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <label for="m-colour" style="font-weight: 600">{{ T.colour }}</label>
+          <input id="m-colour" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+        </div>
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+          <label for="m-describe" style="font-weight: 600">{{ T.describe2 }}</label>
+          <textarea id="m-describe" rows="5" style="min-height: 140px; box-sizing: border-box; resize: vertical; border: 1px solid var(--input-border); border-radius: 8px; padding: 10px 14px; font: inherit; background: var(--surface); color: var(--text)"></textarea>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- 4.3 Possible locations and suspects -->
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 18px; color: var(--heading)">{{ T.s43Head }}</legend>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-weight: 600">{{ T.leadsHead }}</span>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="l-school" style="font-size: 14px; color: var(--muted)">{{ T.leadSchool }}</label>
+            <input id="l-school" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="l-market" style="font-size: 14px; color: var(--muted)">{{ T.leadMarket }}</label>
+            <input id="l-market" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="l-close" style="font-size: 14px; color: var(--muted)">{{ T.leadClose }}</label>
+            <input id="l-close" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="l-worship" style="font-size: 14px; color: var(--muted)">{{ T.leadWorship }}</label>
+            <input id="l-worship" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-weight: 600">{{ T.suspectHead }}</span>
+        <div style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse; font-size: 15px">
+            <thead>
+              <tr style="text-align: left; border-bottom: 1px solid var(--border)">
+                <th style="padding: 10px 8px; width: 70px; font-weight: 600">{{ T.sno }}</th>
+                <th style="padding: 10px 8px; font-weight: 600">{{ T.susName }}</th>
+                <th style="padding: 10px 8px; font-weight: 600">{{ T.susRel }}</th>
+                <th style="padding: 10px 8px; font-weight: 600">{{ T.susAddr }}</th>
+                <th style="padding: 10px 8px; font-weight: 600">{{ T.susPhone }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border)">
+                <td style="padding: 10px 8px; color: var(--muted)">1</td>
+                <td style="padding: 10px 8px"><input type="text" aria-label="Suspect 1 name" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+                <td style="padding: 10px 8px"><input type="text" aria-label="Suspect 1 relationship" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+                <td style="padding: 10px 8px"><input type="text" aria-label="Suspect 1 address" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+                <td style="padding: 10px 8px"><input type="text" inputmode="numeric" aria-label="Suspect 1 contact number" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border)">
+                <td style="padding: 10px 8px; color: var(--muted)">2</td>
+                <td style="padding: 10px 8px"><input type="text" aria-label="Suspect 2 name" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+                <td style="padding: 10px 8px"><input type="text" aria-label="Suspect 2 relationship" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+                <td style="padding: 10px 8px"><input type="text" aria-label="Suspect 2 address" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+                <td style="padding: 10px 8px"><input type="text" inputmode="numeric" aria-label="Suspect 2 contact number" style="width: 100%; height: 44px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 10px; font: inherit; background: var(--surface); color: var(--text)"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="no-print footer-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid var(--border); padding-top: 24px">
+      <button type="button" class="btn btn-save" onClick="{{ back }}" style="{{ backStyle }} height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.back }}</button>
+      <div style="display: flex; align-items: center; gap: 16px">
+      <button type="button" class="btn btn-save" style="height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.save }}</button>
+      <button type="button" class="btn btn-next" onClick="{{ next }}" style="height: 48px; padding: 0 32px; background: var(--accent); color: #FFFFFF; border: 0; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.next }}</button>
+    </div>
+    </div>
+  </form>
+  </div>
+
+  <!-- Section 5 card: Declaration & consent -->
+  <div style="{{ sec5Style }}">
+  <form style="border: 1px solid var(--border); border-radius: 12px; padding: 32px 40px; display: flex; flex-direction: column; gap: 28px; background: var(--surface)" onsubmit="return false">
+    <div>
+      <h2 style="margin: 0 0 4px; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 22px; color: var(--text)">{{ T.s5Head }}</h2>
+      <p style="margin: 0; font-size: 15px; color: var(--muted)">{{ T.s5Desc }}</p>
+    </div>
+
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; min-width: 0">
+      <legend style="padding: 0; margin: 0 0 8px; font-weight: 600">{{ T.consentHead }}</legend>
+      <p style="margin: 0; font-size: 16px">{{ T.consentText }}</p>
+      <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="consent" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.agree }}</label>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 16px"><input type="radio" name="consent" style="width: 18px; height: 18px; accent-color: #F39C12">{{ T.disagree }}</label>
+      </div>
+    </fieldset>
+
+    <div role="note" style="border-left: 4px solid var(--accent); background: var(--notice); border-radius: 8px; padding: 14px 18px; font-size: 15px; color: var(--notice-text)">
+      {{ T.confirmText }}
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 12px">
+      <input id="decl-confirm" type="checkbox" style="width: 20px; height: 20px; margin: 2px 0 0; accent-color: #F39C12">
+      <label for="decl-confirm" style="font-size: 16px">{{ T.confirmBox }}</label>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px">
+      <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+        <label for="sig-name" style="font-weight: 600">{{ T.sigName }}</label>
+        <input id="sig-name" type="text" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="sig-date" style="font-weight: 600">{{ T.sigDate }}</label>
+        <input id="sig-date" type="date" class="dt" style="height: 48px; box-sizing: border-box; border: 1px solid var(--input-border); border-radius: 8px; padding: 0 14px; font: inherit; background: var(--surface); color: var(--text)">
+      </div>
+    </div>
+
+    <div class="no-print footer-bar" style="display: flex; justify-content: space-between; align-items: center; gap: 16px; border-top: 1px solid var(--border); padding-top: 24px">
+      <button type="button" class="btn btn-save" onClick="{{ back }}" style="{{ backStyle }} height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.back }}</button>
+      <div style="display: flex; align-items: center; gap: 16px">
+      <button type="button" class="btn btn-save" style="height: 48px; padding: 0 24px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.save }}</button>
+      <button type="button" class="btn btn-next" onClick="{{ submitForm }}" style="height: 48px; padding: 0 32px; background: var(--accent); color: #FFFFFF; border: 0; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.submit }}</button>
+    </div>
+    </div>
+  </form>
+  </div>
+
+  <!-- Confirmation after submission -->
+  <sc-if value="{{ isSubmitted }}" hint-placeholder-val="{{ false }}">
+  <div role="status" class="no-print" style="border: 1px solid var(--border); border-radius: 12px; padding: 40px 40px; background: var(--surface); display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center">
+    <div aria-hidden="true" style="width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background-color: #1C8329">
+      <svg width="32" height="32" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </div>
+    <h2 style="margin: 0; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-weight: 600; font-size: 24px; color: var(--heading)">{{ T.confirmTitle }}</h2>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 15px; color: var(--muted)">{{ T.confirmRef }}</span>
+      <span style="font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: 1px; color: var(--text)">{{ refNo }}</span>
+    </div>
+    <p style="margin: 0; max-width: 680px; font-size: 16px; line-height: 1.5">{{ T.confirmNote }}</p>
+    <div role="note" style="{{ firWarnStyle }} max-width: 680px; border-left: 4px solid var(--accent); background: var(--notice); border-radius: 8px; padding: 14px 18px; font-size: 15px; color: var(--notice-text); text-align: left; line-height: 1.5">{{ T.firWarn }}</div>
+    <button type="button" class="btn btn-save" onClick="{{ viewSubmitted }}" style="height: 48px; padding: 0 28px; background: var(--surface); color: var(--heading); border: 1px solid var(--heading); border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.viewForm }}</button>
+    <button type="button" class="btn btn-next" onClick="{{ printForm }}" style="height: 48px; padding: 0 28px; background: var(--accent); color: #FFFFFF; border: 0; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.printSave }}</button>
+  </div>
+  </sc-if>
+
+  <!-- Placeholder for sections not built yet -->
+  <sc-if value="{{ notSection3 }}" hint-placeholder-val="{{ false }}">
+  <div style="border: 1px dashed var(--input-border); border-radius: 12px; padding: 48px 40px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center">
+    <p style="margin: 0; font-size: 18px; font-weight: 600; color: var(--heading)">Section {{ currentNum }}: {{ currentTitle }}</p>
+    <p style="margin: 0; font-size: 15px; color: var(--muted)">{{ T.placeholderBody }}</p>
+    <button type="button" class="btn btn-next" onClick="{{ next }}" style="height: 48px; padding: 0 32px; background: var(--accent); color: #3D3D3D; border: 0; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer">{{ T.next }}</button>
+  </div>
+  </sc-if>
+</main>
+
+
+
+<footer class="no-print" style="background: #445294; color: #FFFFFF; padding: 20px 64px 18px; box-sizing: border-box; font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-size: 14px; line-height: 1.8; position: relative; left: 0; right: 0; z-index: 60">
+  <div class="fl" style="display: flex; flex-wrap: wrap; align-items: center">
+    <sc-for list="{{ footLinks }}" as="l"><span>{{ l.t }}</span></sc-for>
+  </div>
+  <div style="margin-top: 4px">{{ T.footCopy }}</div>
+</footer></div>
+</div>
+
+<!-- Accessibility menu (opens from the header icon) -->
+<sc-if value="{{ panelOpen }}" hint-placeholder-val="{{ false }}">
+<div class="no-print" role="dialog" aria-label="Accessibility Menu" style="position: absolute; top: 81px; right: 86px; width: 400px; box-sizing: border-box; background: var(--surface); color: var(--text); border: 2px solid #22409A; border-radius: 8px; box-shadow: 0 12px 32px rgba(0,0,0,0.28); overflow: hidden; z-index: 60">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px 0">
+    <span style="font-family: Inter, 'Noto Sans Devanagari', sans-serif; font-size: 20px; font-weight: 600; color: var(--heading)">Accessibility Menu</span>
+    <button type="button" aria-label="Close accessibility menu" onClick="{{ closePanel }}" style="background: none; border: 0; color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; padding: 4px">✕</button>
+  </div>
+  <div style="padding: 24px 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 22px">
+      <div style="display: flex; gap: 20px">
+        <button type="button" aria-label="Light mode" aria-pressed="{{ isLight }}" onClick="{{ setLight }}" style="{{ lightSwatchStyle }}"></button>
+        <button type="button" aria-label="Dark mode" aria-pressed="{{ isDark }}" onClick="{{ setDark }}" style="{{ darkSwatchStyle }}"></button>
+      </div>
+      <a href="#main" style="font-size: 16px; text-align: center">Skip to Main Content</a>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 22px">
+      <div style="display: flex; gap: 22px; align-items: center">
+        <button type="button" aria-label="Decrease font size" onClick="{{ fontDown }}" style="background: none; border: 0; color: var(--text); font-size: 22px; cursor: pointer; padding: 4px 6px">A-</button>
+        <button type="button" aria-label="Reset font size" onClick="{{ fontReset }}" style="background: none; border: 0; color: var(--text); font-size: 26px; cursor: pointer; padding: 4px 6px">A</button>
+        <button type="button" aria-label="Increase font size" onClick="{{ fontUp }}" style="background: none; border: 0; color: var(--text); font-size: 30px; cursor: pointer; padding: 4px 6px">A+</button>
+      </div>
+      <a href="#" style="font-size: 16px; text-align: center">Screen Reader Access</a>
+    </div>
+  </div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":880}}'>
+class Component extends DCLogic {
+  state = { current: 0, done: 0, dark: false, panelOpen: false, fontIndex: 1, lang: 'en', marks: [], extraRows: 0, markView: 'front', firPending: false, submitted: false, refNo: '', printAll: false, viewing: false };
+
+  goTo(i) {
+    this.setState({ current: i });
+  }
+
+  next() {
+    const cur = this.state.current;
+    if (cur >= 4) return;
+    this.setState({ current: cur + 1, done: Math.max(this.state.done, cur + 1) });
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  }
+
+  back() {
+    const cur = this.state.current;
+    if (cur <= 0) return;
+    this.setState({ current: cur - 1 });
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  }
+
+  goHome() {
+    this.setState({ current: 0 });
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  }
+
+  togglePanel() { this.setState({ panelOpen: !this.state.panelOpen }); }
+  closePanel() { this.setState({ panelOpen: false }); }
+  setLight() { this.setState({ dark: false }); }
+  setDark() { this.setState({ dark: true }); }
+
+  toggleLang() { this.setState({ lang: this.state.lang === 'en' ? 'hi' : 'en' }); }
+
+  fontDown() { this.setState({ fontIndex: Math.max(0, this.state.fontIndex - 1) }); }
+  fontReset() { this.setState({ fontIndex: 1 }); }
+  fontUp() { this.setState({ fontIndex: Math.min(4, this.state.fontIndex + 1) }); }
+
+  placeMark(e) {
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width * 100;
+    const y = (e.clientY - r.top) / r.height * 100;
+    if (x < 0 || x > 100 || y < 0 || y > 100) return;
+    this.setState({ marks: [...this.state.marks, { view: this.state.markView, x: x, y: y }] });
+  }
+
+  removeMark(e, idx) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    this.setState({ marks: this.state.marks.filter((_, j) => j !== idx) });
+  }
+
+  addRow() { this.setState({ extraRows: this.state.extraRows + 1 }); }
+
+  toggleFir() { this.setState({ firPending: !this.state.firPending }); }
+
+  viewSubmitted() { this.setState({ viewing: true }); if (typeof window !== 'undefined') window.scrollTo(0, 0); }
+  backToConfirm() { this.setState({ viewing: false }); if (typeof window !== 'undefined') window.scrollTo(0, 0); }
+
+  printForm() {
+    this.setState({ printAll: true });
+    setTimeout(() => {
+      try { window.print(); } catch (err) { /* printing blocked in this preview */ }
+      this.setState({ printAll: false });
+    }, 400);
+  }
+
+  submitForm() {
+    const ref = 'MV' + new Date().getFullYear() + String(Math.floor(100000 + Math.random() * 900000));
+    this.setState({ submitted: true, refNo: ref });
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  }
+  setMarkView(v) { this.setState({ markView: v }); }
+
+  renderVals() {
+    const NUMS = Array.from({ length: 12 }, (_, i) => String(i + 1));
+    const EN = {
+      title: 'FORM M: REPORT MISSING CHILD',
+      helpline: 'Child Helpline:',
+      langAria: 'Change language to Hindi',
+      sections: ['FIR & Case Details', 'Child & Family', 'Identification', 'Incident Details', 'Declaration'],
+      doneSuffix: ' of 5 sections complete',
+      s1Head: 'FIR & Case Details',
+      s1Desc: 'Enter the FIR and G.D.E. details from the police station.',
+      s1Pending: 'FIR is yet to be filed',
+      s1Notice: 'An FIR is essential for the investigation to go further. Please file the FIR at the police station as soon as possible after submitting this form.',
+      firNo: 'F.I.R. No.',
+      firDate: 'F.I.R. Date',
+      gdeNo: 'G.D.E. No.',
+      gdeDate: 'G.D.E. Date',
+      gdeHelp: 'General Diary Entry number, if no FIR yet',
+      s2Head: 'Child & Family',
+      s2Desc: 'Enter the child\'s personal details, family details and photographs.',
+      s21Head: '2.1 Child\'s Personal Details',
+      legalName: 'Legal Name',
+      first: 'First Name',
+      middle: 'Middle Name',
+      last: 'Last Name',
+      nick: 'Nick name',
+      nick1: 'Nickname 1',
+      nick2: 'Nickname 2',
+      nick3: 'Nickname 3',
+      selectOne: 'Select',
+      religions: ['Hindu', 'Muslim', 'Christian', 'Sikh', 'Buddhist', 'Jain', 'Other'],
+      tongues: ['Assamese', 'Bengali', 'English', 'Gujarati', 'Hindi', 'Kannada', 'Malayalam', 'Marathi', 'Odia', 'Punjabi', 'Tamil', 'Telugu', 'Urdu', 'Other'],
+      classes: ['Nursery', 'LKG', 'UKG'].concat(NUMS, ['Not in school', 'Other']),
+      gender: 'Gender',
+      male: 'Male',
+      female: 'Female',
+      other: 'Other',
+      dob: 'Date of Birth',
+      aadhaar: 'Aadhaar Number',
+      religion: 'Religion',
+      nationality: 'Nationality',
+      indian: 'Indian',
+      otherNat: 'Other (Please mention)',
+      motherTongue: 'Mother Tongue',
+      className: 'Class',
+      school: 'School Name & Address',
+      s22Head: '2.2 Family & Contact Details',
+      mother: 'Mother\'s Name',
+      father: 'Father\'s Name',
+      sibling: 'Sibling\'s Name',
+      address: 'Primary Address',
+      house: 'House no.',
+      street: 'Apartment, Area / Street',
+      district: 'District',
+      city: 'City',
+      state: 'State',
+      pin: 'Pin Code',
+      phone: 'Contact Number',
+      email: 'E-mail',
+      postOffice: 'Post Office',
+      policeStation: 'Police Station',
+      s23Head: '2.3 Photographs',
+      photoRule: 'Photos must be in JPEG format, maximum 100 KB per file.',
+      passport: 'Passport size photo',
+      recent: 'Recent photos (minimum 3)',
+      photo1: 'Photo 1',
+      photo2: 'Photo 2',
+      photo3: 'Photo 3',
+      save: 'Save draft',
+      next: 'Next',
+      back: 'Back',
+      errAadhaar: 'Enter all 12 digits (numbers only)',
+      errPhone: 'Enter a 10-digit mobile number starting with 6, 7, 8 or 9',
+      errEmail: 'Enter a valid email, for example name@example.com',
+      demoHead: 'How to add a mark',
+      footLinks: ['Home', 'Act and Rules', 'Website Policies', 'Guidelines', 'Best Practices', 'Feedback', 'Citizen Corner', 'Contact Us', 'Sitemap', 'Grievance'],
+      footCopy: 'Copyright © 2026 Mission Vatsalya, Ministry of Women & Child Development, Government of India. All Rights Reserved.',
+      s3Head: 'Identification Details of the Child',
+      s3Desc: 'Enter the child\'s physical features, distinctive marks, appearance, health and behaviour.',
+      s31Head: '3.1 Physical Features',
+      height: 'Height',
+      feet: 'Feet',
+      inches: 'Inches',
+      weight: 'Weight (kg)',
+      bodyBuilt: 'Body Built',
+      bodyBuiltList: ['Lean', 'Average', 'Broad / Heavy'],
+      s32Head: '3.2 Distinctive Marks',
+      marksDesc: 'Mark the features on the diagram with numbers and fill in the table below.',
+      front: 'Front',
+      back: 'Back',
+      sno: 'S.no.',
+      bodyPart: 'Body part',
+      markType: 'Type of mark',
+      markDesc: 'Description',
+      bodyPartList: ['Head / Face', 'Neck', 'Chest / Back', 'Arm / Hand', 'Knee', 'Leg / Foot'],
+      markTypeList: ['Scar', 'Tattoo', 'Mole / Birthmark', 'Burn mark', 'Piercing', 'Other'],
+      s33Head: '3.3 Appearance',
+      skin: 'Skin tone',
+      skinList: ['Very fair – fair', 'Wheatish', 'Dusky', 'Dark – very dark'],
+      eyes: 'Eye colour',
+      eyeList: ['Black', 'Brown', 'Green', 'Blue'],
+      hair: 'Hair colour',
+      hairList: ['Black', 'Brown', 'Coloured', 'Bald'],
+      s34Head: '3.4 Basic Biological Details',
+      blood: 'Blood group',
+      bloodList: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+      s35Head: '3.5 Biological / Health Details',
+      phys: 'Physically challenged',
+      physList: ['Difficulty walking', 'Uses wheelchair', 'Affected or missing limb'],
+      sens: 'Sensory impairment',
+      sensList: ['Vision impairment', 'Difficulty hearing'],
+      ment: 'Mentally challenged',
+      mentList: ['Difficulty understanding or communicating / Autism', 'Behavioural or emotional condition'],
+      otherSpec: 'Other (please specify)',
+      s36Head: '3.6 Behavioural Traits & Habits',
+      habits: 'Habits / recognisable patterns',
+      habitList: ['Nail biting', 'Thumb sucking', 'Lip biting', 'Not known'],
+      comm: 'Communication & social behaviour',
+      commList: ['Silent nature', 'Talkative', 'Restless / fidgety', 'Not known'],
+      describe: 'Describe any specific behaviour or habit',
+      markHint: 'Click on the body to mark a feature. Click a number to remove it.',
+      markEmpty: 'No marks yet. Click on the body to add one, or add a row.',
+      addRow: 'Add row',
+      s4Head: 'Incident Details',
+      s4Desc: 'Enter the informant, the missing event and any leads or suspects.',
+      s41Head: '4.1 Informant Details (if not parent)',
+      informantNote: 'Fill this only if the person reporting is not the child\'s parent.',
+      nameLabel: 'Name',
+      relation: 'Relationship with the child',
+      s42Head: '4.2 Missing Event Details',
+      lastSeen: 'Last seen at which place?',
+      missingDate: 'Date of missing',
+      missingTime: 'Time (approx.)',
+      causeHead: 'Suspected cause (if known)',
+      causeList: ['Runaway', 'Lost', 'Trafficked', 'Kidnapped', 'Other', 'Not known'],
+      clothes: 'Clothes worn at the time of missing',
+      colour: 'Colour',
+      describe2: 'Detailed description in your own words',
+      s43Head: '4.3 Possible Locations & Suspect Details',
+      leadsHead: 'Possible locations of recovery / leads',
+      leadSchool: 'School',
+      leadMarket: 'Market',
+      leadClose: 'House of a close person',
+      leadWorship: 'Place of worship',
+      suspectHead: 'Suspect details (if any)',
+      susName: 'Name',
+      susRel: 'Relationship',
+      susAddr: 'Address',
+      susPhone: 'Contact number',
+      s5Head: 'Declaration & Consent',
+      s5Desc: 'Please read the statements below and confirm before submitting.',
+      consentHead: 'Consent to share photograph',
+      consentText: 'I agree / do not agree to allow the police to share the photograph of the child for search and identification purposes.',
+      agree: 'I agree',
+      disagree: 'I do not agree',
+      confirmText: 'I confirm that the information provided above is true and correct to the best of my knowledge.',
+      confirmBox: 'I confirm the above declaration',
+      sigName: 'Informant\'s full name (as signature)',
+      sigDate: 'Date',
+      submit: 'Submit',
+      confirmTitle: 'Form submitted successfully',
+      confirmRef: 'Your reference number',
+      confirmNote: 'Please keep this reference number, or the printed copy of this form, and take it to the nearest or concerned police station so that the investigation can start.',
+      firWarn: 'You have marked that the FIR is yet to be filed. An FIR is necessary for a valid missing child case. Please file the FIR at the police station as soon as possible and quote this reference number.',
+      printSave: 'Print or save as PDF',
+      viewForm: 'View submitted form',
+      viewNote: 'You are viewing your submitted form.',
+      backConfirm: 'Back to confirmation',
+      placeholderBody: 'Fields for this section will be added in the next stage.'
+    };
+    const HI = {
+      title: 'लापता बच्चे की रिपोर्ट (फॉर्म–एम)',
+      helpline: 'बाल हेल्पलाइन:',
+      langAria: 'Change language to English',
+      sections: ['एफ.आई.आर एवं प्रकरण विवरण', 'बच्चे एवं परिवार का विवरण', 'पहचान संबंधी विवरण', 'घटना विवरण', 'घोषणा एवं सहमति'],
+      doneSuffix: ' / 5 खंड पूर्ण',
+      s1Head: 'एफ.आई.आर एवं प्रकरण विवरण',
+      s1Desc: 'पुलिस थाने से प्राप्त एफ.आई.आर और जी.डी.इ. का विवरण दर्ज करें।',
+      s1Pending: 'एफ.आई.आर अभी दर्ज नहीं हुई है',
+      s1Notice: 'जाँच आगे बढ़ने के लिए एफ.आई.आर अत्यंत आवश्यक है। कृपया यह फॉर्म जमा करने के बाद जितनी जल्दी हो सके थाने में एफ.आई.आर दर्ज कराएँ।',
+      firNo: 'एफ.आई.आर क्रमांक',
+      firDate: 'दिनांक',
+      gdeNo: 'जी.डी.इ क्रमांक',
+      gdeDate: 'दिनांक',
+      gdeHelp: 'सामान्य डायरी प्रविष्टि (जी.डी.इ.) क्रमांक, यदि अभी एफ.आई.आर दर्ज नहीं हुई है',
+      s2Head: 'बच्चे एवं परिवार का विवरण',
+      s2Desc: 'बच्चे का व्यक्तिगत विवरण, पारिवारिक विवरण और फ़ोटो दर्ज करें।',
+      s21Head: '2.1 बच्चे का व्यक्तिगत विवरण',
+      legalName: 'आधिकारिक नाम',
+      first: 'पहला नाम',
+      middle: 'मध्य नाम',
+      last: 'अंतिम नाम',
+      nick: 'उपनाम',
+      nick1: 'उपनाम 1',
+      nick2: 'उपनाम 2',
+      nick3: 'उपनाम 3',
+      selectOne: 'चुनें',
+      religions: ['हिंदू', 'मुस्लिम', 'ईसाई', 'सिख', 'बौद्ध', 'जैन', 'अन्य'],
+      tongues: ['असमिया', 'बंगाली', 'अंग्रेज़ी', 'गुजराती', 'हिंदी', 'कन्नड़', 'मलयालम', 'मराठी', 'ओड़िया', 'पंजाबी', 'तमिल', 'तेलुगु', 'उर्दू', 'अन्य'],
+      classes: ['नर्सरी', 'एल.के.जी.', 'यू.के.जी.'].concat(NUMS, ['स्कूल में नहीं', 'अन्य']),
+      gender: 'लिंग',
+      male: 'पुरुष',
+      female: 'महिला',
+      other: 'अन्य',
+      dob: 'जन्म तिथि',
+      aadhaar: 'आधार नंबर',
+      religion: 'धर्म',
+      nationality: 'राष्ट्रीयता',
+      indian: 'भारतीय',
+      otherNat: 'अन्य (कृपया बताएं)',
+      motherTongue: 'मातृभाषा',
+      className: 'कक्षा',
+      school: 'विद्यालय का नाम व पता',
+      s22Head: '2.2 पारिवारिक व संपर्क विवरण',
+      mother: 'माता का नाम',
+      father: 'पिता का नाम',
+      sibling: 'भाई/बहन का नाम',
+      address: 'प्राथमिक पता',
+      house: 'मकान क्रमांक',
+      street: 'अपार्टमेंट, गली/क्षेत्र',
+      district: 'जिला',
+      city: 'शहर',
+      state: 'राज्य',
+      pin: 'पिन कोड',
+      phone: 'संपर्क नंबर',
+      email: 'ई-मेल',
+      postOffice: 'डाकघर',
+      policeStation: 'पुलिस थाना',
+      s23Head: '2.3 बच्चे की फ़ोटो',
+      photoRule: 'फ़ोटो केवल JPEG प्रारूप में, प्रत्येक फ़ाइल अधिकतम 100 KB।',
+      passport: 'पासपोर्ट साइज़ फ़ोटो',
+      recent: 'हाल की फ़ोटो (कम से कम 3)',
+      photo1: 'फ़ोटो 1',
+      photo2: 'फ़ोटो 2',
+      photo3: 'फ़ोटो 3',
+      save: 'ड्राफ्ट सहेजें',
+      next: 'आगे बढ़ें',
+      back: 'वापस',
+      demoHead: 'चिन्ह कैसे लगाएं',
+      footLinks: ['होम', 'अधिनियम एवं नियम', 'वेबसाइट नीतियां', 'दिशानिर्देश', 'सर्वोत्तम प्रथाएं', 'प्रतिक्रिया', 'नागरिक कोना', 'संपर्क करें', 'साइटमैप', 'शिकायत'],
+      footCopy: 'कॉपीराइट © 2026 मिशन वात्सल्य, महिला एवं बाल विकास मंत्रालय, भारत सरकार। सर्वाधिकार सुरक्षित।',
+      errAadhaar: 'सभी 12 अंक लिखें (केवल संख्या)',
+      errPhone: '6, 7, 8 या 9 से शुरू होने वाला 10 अंकों का मोबाइल नंबर लिखें',
+      errEmail: 'सही ईमेल लिखें, जैसे name@example.com',
+      s3Head: 'पहचान संबंधी विवरण',
+      s3Desc: 'बच्चे की शारीरिक विशेषताएँ, पहचान चिन्ह, दिखावट, स्वास्थ्य और व्यवहार दर्ज करें।',
+      s31Head: '3.1 शारीरिक विशेषताएँ',
+      height: 'ऊंचाई (फीट / इंच)',
+      feet: 'फीट',
+      inches: 'इंच',
+      weight: 'वजन (किलो)',
+      bodyBuilt: 'शारीरिक बनावट',
+      bodyBuiltList: ['पतला', 'मध्यम', 'मज़बूत / भारी'],
+      s32Head: '3.2 पहचान चिन्ह',
+      marksDesc: 'दिए गए चित्र पर पहचान के चिन्हों को संख्या से चिन्हित करें और उनका विवरण नीचे तालिका में भरें।',
+      front: 'सामने',
+      back: 'पीछे',
+      sno: 'क्र.सं.',
+      bodyPart: 'शरीर का भाग',
+      markType: 'चिन्ह का प्रकार',
+      markDesc: 'विवरण',
+      bodyPartList: ['सिर / चेहरा', 'गर्दन', 'छाती / पीठ', 'बांह / हाथ', 'घुटना', 'पैर / पंजा'],
+      markTypeList: ['घाव का निशान', 'टैटू / गोदना', 'तिल / जन्मचिह्न', 'जलन का निशान', 'छेदन', 'अन्य'],
+      s33Head: '3.3 दिखावट संबंधी विवरण',
+      skin: 'त्वचा का रंग',
+      skinList: ['बहुत गोरा-गोरा', 'गेहुँआ', 'सांवला', 'गहरा-बहुत गहरा'],
+      eyes: 'आंखों का रंग',
+      eyeList: ['काला', 'भूरा', 'हरा', 'नीला'],
+      hair: 'बालों का रंग',
+      hairList: ['काला', 'भूरा', 'रंगीन', 'बाल नहीं हैं'],
+      s34Head: '3.4 मूलभूत शारीरिक विवरण',
+      blood: 'रक्त समूह',
+      bloodList: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+      s35Head: '3.5 शारीरिक विवरण',
+      phys: 'शारीरिक दिव्यांगता',
+      physList: ['चलने में कठिनाई', 'व्हीलचेयर का उपयोग', 'अंग में अंतर / कमी'],
+      sens: 'संवेदी दिव्यांगता',
+      sensList: ['दृष्टि में कमी', 'सुनने में कठिनाई'],
+      ment: 'मानसिक स्थिति',
+      mentList: ['समझने या संवाद में कठिनाई / ऑटिज़्म', 'व्यवहार या भावनात्मक स्थिति से संबंधित'],
+      otherSpec: 'अन्य (कृपया बताएं)',
+      s36Head: '3.6 व्यवहार एवं आदत',
+      habits: 'आदत / पहचान योग्य व्यवहार',
+      habitList: ['नाखून चबाना', 'अंगूठा चूसना', 'होंठ काटना', 'ज्ञात नहीं'],
+      comm: 'संवाद एवं सामाजिक व्यवहार',
+      commList: ['शांत स्वभाव', 'बहुत बोलना', 'बेचैनी / हिलना-डुलना', 'ज्ञात नहीं'],
+      describe: 'किसी विशेष व्यवहार या आदत का विवरण',
+      markHint: 'शरीर पर क्लिक करके चिन्ह लगाएं। संख्या पर क्लिक करके उसे हटाएं।',
+      markEmpty: 'अभी कोई चिन्ह नहीं है। शरीर पर क्लिक करें या पंक्ति जोड़ें।',
+      addRow: 'पंक्ति जोड़ें',
+      s4Head: 'घटना विवरण',
+      s4Desc: 'सूचना देने वाले, लापता होने की घटना तथा संभावित सुराग या संदिग्ध व्यक्ति का विवरण दर्ज करें।',
+      s41Head: '4.1 सूचना देने वाले का विवरण (यदि माता/पिता नहीं)',
+      informantNote: 'यह भाग तभी भरें जब सूचना देने वाला बच्चे का माता/पिता न हो।',
+      nameLabel: 'नाम',
+      relation: 'बच्चे से संबंध',
+      s42Head: '4.2 लापता होने की जानकारी',
+      lastSeen: 'अंतिम बार कहां देखा गया?',
+      missingDate: 'लापता होने की तारीख',
+      missingTime: 'समय (लगभग)',
+      causeHead: 'संभावित कारण (यदि ज्ञात हो)',
+      causeList: ['घर से भागा हुआ', 'भटक गया', 'तस्करी', 'अपहरण', 'अन्य', 'ज्ञात नहीं'],
+      clothes: 'लापता होने के समय पहने हुए कपड़े',
+      colour: 'रंग',
+      describe2: 'घटना का विवरण (अपने शब्दों में)',
+      s43Head: '4.3 संभावित स्थान / सुराग एवं संदिग्ध व्यक्ति का विवरण',
+      leadsHead: 'संभावित स्थान / सुराग',
+      leadSchool: 'विद्यालय',
+      leadMarket: 'बाजार',
+      leadClose: 'करीबी का घर',
+      leadWorship: 'धार्मिक स्थल',
+      suspectHead: 'संदिग्ध व्यक्ति का विवरण (यदि कोई हो)',
+      susName: 'नाम',
+      susRel: 'संबंध',
+      susAddr: 'पता',
+      susPhone: 'संपर्क नंबर',
+      s5Head: 'घोषणा एवं सहमति',
+      s5Desc: 'कृपया नीचे दिए गए कथन पढ़कर जमा करने से पहले पुष्टि करें।',
+      consentHead: 'फ़ोटो साझा करने की सहमति',
+      consentText: 'मैं सहमत हूं / सहमत नहीं हूं - कि बच्चे की फ़ोटो को खोज और पहचान के उद्देश्य से पुलिस द्वारा साझा किया जाए।',
+      agree: 'मैं सहमत हूं',
+      disagree: 'मैं सहमत नहीं हूं',
+      confirmText: 'मैं पुष्टि करता/करती हूं कि ऊपर दी गई जानकारी मेरे ज्ञान के अनुसार सही है।',
+      confirmBox: 'मैं ऊपर दी गई घोषणा की पुष्टि करता/करती हूं',
+      sigName: 'सूचना देने वाले का पूरा नाम (हस्ताक्षर के रूप में)',
+      sigDate: 'दिनांक',
+      submit: 'जमा करें',
+      confirmTitle: 'फॉर्म सफलतापूर्वक जमा हुआ',
+      confirmRef: 'आपका संदर्भ संख्या',
+      confirmNote: 'कृपया इस संदर्भ संख्या या इस फॉर्म की मुद्रित प्रति को अपने निकटतम या संबंधित पुलिस थाने में ले जाएँ, ताकि जाँच शुरू हो सके।',
+      firWarn: 'आपने चिन्हित किया है कि एफ.आई.आर अभी दर्ज नहीं हुई है। एक वैध लापता बच्चे के मामले के लिए एफ.आई.आर आवश्यक है। कृपया जितनी जल्दी हो सके थाने में एफ.आई.आर दर्ज कराएँ और यह संदर्भ संख्या बताएँ।',
+      printSave: 'प्रिंट करें / पीडीएफ़ के रूप में सहेजें',
+      viewForm: 'जमा किया गया फ़ॉर्म देखें',
+      viewNote: 'आप अपना जमा किया गया फ़ॉर्म देख रहे हैं।',
+      backConfirm: 'पुष्टि पृष्ठ पर वापस जाएं',
+      placeholderBody: 'इस खंड के फ़ील्ड अगले चरण में जोड़े जाएँगे।'
+    };
+    const L = this.state.lang === 'hi' ? HI : EN;
+    const FONT_SCALE = [0.875, 1, 1.125, 1.25, 1.375];
+    const cur = this.state.current;
+    const done = this.state.done;
+    const base = 'background: none; border: 0; width: 100%; padding: 14px 8px; font-family: Inter, "Noto Sans Devanagari", sans-serif; font-size: 15px; text-align: left; display: flex; flex-direction: row; align-items: flex-start; gap: 10px; ';
+
+    const sections = L.sections.map((title, i) => {
+      const isCurrent = i === cur;
+      const isDone = i < done;
+      const locked = false;
+      const color = isCurrent ? 'var(--heading)' : (isDone ? 'var(--text)' : 'var(--muted)');
+      const currentExtra = isCurrent ? 'background: var(--notice); box-shadow: inset 0 4px 0 var(--heading); ' : '';
+      const weight = isCurrent ? 700 : 600;
+      const cursor = locked ? 'not-allowed' : 'pointer';
+      return {
+        n: i + 1,
+        is1: i === 0, is2: i === 1, is3: i === 2, is4: i === 3, is5: i === 4,
+        title: title,
+        isDone: isDone,
+        locked: locked,
+        ariaCurrent: isCurrent ? 'step' : undefined,
+        tabStyle: base + currentExtra + 'color: ' + color + '; font-weight: ' + weight + '; cursor: ' + cursor + ';',
+        pick: () => this.goTo(i)
+      };
+    });
+
+    const ring = '; outline: 3px solid #22409A; outline-offset: 2px;';
+    const swatch = 'width: 56px; height: 56px; border-radius: 50%; border: 2px solid #3D3D3D; cursor: pointer; padding: 0; ';
+
+    const showAll = this.state.printAll || this.state.viewing;
+    const vis = (n) => (showAll || (!this.state.submitted && cur === n - 1)) ? '' : 'display: none;';
+    const isFront = this.state.markView === 'front';
+    const isBack = !isFront;
+    const seg = 'height: 40px; padding: 0 18px; border: 1px solid var(--input-border); background: var(--surface); color: var(--text); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; ';
+    const segOn = 'background: var(--heading) !important; color: var(--surface) !important; border-color: var(--heading); ';
+    const allMarks = this.state.marks.map((m, i) => ({ view: m.view, x: m.x, y: m.y, num: i + 1 }));
+    const viewMarks = allMarks.filter(m => m.view === this.state.markView).map(m => ({
+      num: m.num,
+      style: 'position: absolute; left: ' + m.x.toFixed(2) + '%; top: ' + m.y.toFixed(2) + '%; transform: translate(-50%, -50%); width: 26px; height: 26px; border-radius: 50%; border: 2px solid #3D3D3D; background: #F39C12; color: #3D3D3D; font: inherit; font-size: 13px; font-weight: 700; padding: 0; line-height: 1; cursor: pointer;',
+      remove: (e) => this.removeMark(e, m.num - 1)
+    }));
+    const tableRows = allMarks.map(m => ({ label: String(m.num) })).concat(
+      Array.from({ length: this.state.extraRows }, () => ({ label: '–' })));
+    return {
+      T: L,
+      isFront: isFront,
+      isBack: isBack,
+      figSrc: isFront ? './assets/d2427da2b839cec7175b9011db91b21f.svg' : './assets/b2a1611be5a1c72e548bf0f26ac7a8b9.svg',
+      figAlt: isFront ? L.front : L.back,
+      frontBtnStyle: seg + (isFront ? segOn : '') + 'border-radius: 8px 0 0 8px;',
+      backBtnStyle: seg + (isBack ? segOn : '') + 'border-radius: 0 8px 8px 0; border-left: 0;',
+      setFront: () => this.setMarkView('front'),
+      setBack: () => this.setMarkView('back'),
+      placeMark: (e) => this.placeMark(e),
+      viewMarks: viewMarks,
+      tableRows: tableRows,
+      hasRows: tableRows.length > 0,
+      noRows: tableRows.length === 0,
+      addRow: () => this.addRow(),
+      themeClass: (this.state.dark ? 'theme-dark' : 'theme-light') + (this.state.submitted ? ' locked-view' : ''),
+      logoSrc: this.state.dark ? './assets/98e7fa9597cb048855f3068d0ad344d0.png' : './assets/6ab2c2d3a85a6d85df3d97005d957ff2.png',
+      toggleLang: () => this.toggleLang(),
+      isLight: !this.state.dark,
+      isDark: this.state.dark,
+      panelOpen: this.state.panelOpen,
+      togglePanel: () => this.togglePanel(),
+      closePanel: () => this.closePanel(),
+      setLight: () => this.setLight(),
+      setDark: () => this.setDark(),
+      lightSwatchStyle: swatch + 'background: #FFFFFF;' + (this.state.dark ? '' : ring),
+      darkSwatchStyle: swatch + 'background: #333333;' + (this.state.dark ? ring : ''),
+      fontDown: () => this.fontDown(),
+      fontReset: () => this.fontReset(),
+      fontUp: () => this.fontUp(),
+      zoomLevel: FONT_SCALE[this.state.fontIndex],
+      sections: sections,
+      progressWidth: (done / 5 * 100) + '%',
+      doneText: done + L.doneSuffix,
+      isSubmitted: this.state.submitted && !this.state.viewing && !this.state.printAll,
+      tabsStyle: this.state.submitted ? 'display: none;' : '',
+      viewBarStyle: 'display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 14px 18px; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; background: var(--notice); color: var(--notice-text);' + (this.state.viewing && !this.state.printAll ? '' : ' display: none;'),
+      backToConfirm: () => this.backToConfirm(),
+      sec1Style: vis(1), sec2Style: vis(2), sec3Style: vis(3), sec4Style: vis(4), sec5Style: vis(5),
+      printForm: () => this.printForm(),
+      viewSubmitted: () => this.viewSubmitted(),
+      printRefLine: this.state.submitted ? L.confirmRef + ': ' + this.state.refNo : '',
+      refNo: this.state.refNo,
+      firWarnStyle: this.state.firPending ? '' : 'display: none;',
+      toggleFir: () => this.toggleFir(),
+      submitForm: () => this.submitForm(),
+      notSection3: cur > 4,
+      currentNum: cur + 1,
+      currentTitle: L.sections[cur],
+      rowsArr: [1, 2, 3, 4, 5].map(n => ({ n: n })),
+      causeOpts: L.causeList.map(t => ({ t: t })),
+      bodyBuiltOpts: L.bodyBuiltList.map(t => ({ t: t })),
+      bodyPartOpts: L.bodyPartList.map(t => ({ t: t })),
+      markTypeOpts: L.markTypeList.map(t => ({ t: t })),
+      skinOpts: L.skinList.map(t => ({ t: t })),
+      eyeOpts: L.eyeList.map(t => ({ t: t })),
+      hairOpts: L.hairList.map(t => ({ t: t })),
+      bloodOpts: L.bloodList.map(t => ({ t: t })),
+      physOpts: L.physList.map(t => ({ t: t })),
+      sensOpts: L.sensList.map(t => ({ t: t })),
+      mentOpts: L.mentList.map(t => ({ t: t })),
+      habitOpts: L.habitList.map(t => ({ t: t })),
+      commOpts: L.commList.map(t => ({ t: t })),
+      religionOpts: L.religions.map(t => ({ t: t })),
+      tongueOpts: L.tongues.map(t => ({ t: t })),
+      classOpts: L.classes.map(t => ({ t: t })),
+      next: () => this.next(),
+      back: () => this.back(),
+      goHome: () => this.goHome(),
+      footLinks: L.footLinks.map(t => ({ t: t })),
+      backStyle: this.state.current === 0 ? 'visibility: hidden;' : ''
+    };
+  }
+}
+</script>
+</body>
+</html>
